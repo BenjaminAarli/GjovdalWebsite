@@ -7,19 +7,6 @@
 // export default config;
 
 
-// import adapter from '@sveltejs/adapter-static';
-// import preprocess from 'svelte-preprocess';
-
-// export default {
-//   preprocess: preprocess(),
-//   kit: {
-//     adapter: adapter(),
-//     prerender: {
-//       entries: ['*']  // <-- this tells SvelteKit to prerender all pages
-//     }
-//   }
-// };
-
 import vercel from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
 

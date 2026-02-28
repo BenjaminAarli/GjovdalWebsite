@@ -1,4 +1,9 @@
 
+<script>
+	import ArtistDiv from '$lib/ArtistDiv.svelte';
+
+    let is_dev = true;
+</script>
 
 <body class="bg-gray-100">
     <div>
@@ -24,9 +29,6 @@
     </div>
     <div class="ArtistsSection">
         <div class="Artists">
-            <div class="ArtistDiv">
-                <img alt="bilde av evy og jan." src="/artists/EvyAndJan.png">
-            </div>
         </div>
     </div>
     <p>Penis</p>
@@ -39,8 +41,9 @@
         position: relative;
         display: block;
         width: 100%;
-        height: 90vh;
+        height: 1000px;
         background-color: #AE00FF;
+        border: 5px solid greenyellow;
     }
     .Front {
         position: relative;
@@ -76,16 +79,18 @@
         width: 100%;
         height: 1000px;
         display: block;
+        border: 5px solid red;
     }
-    .ArtistDiv {
+
+    .Artists {
+        background-color: aquamarine;
+        border: 3px solid yellow;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: 1fr;
-        width: 150px;
-        height: 150px;
-    }
-    .ArtistDiv img {
+        max-width: 75%;
         width: 100%;
-        height: 100%;
+        margin: auto;
     }
+
 </style>
