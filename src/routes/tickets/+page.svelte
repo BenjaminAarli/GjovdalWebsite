@@ -22,6 +22,12 @@
     };
 </script>
 
+<div class="buy_button">
+    <button on:click={() => {move_to_sale_page()}} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounde">
+        Kjøp nå!
+    </button>
+</div>
+
 <div class="BGImageDiv">
     <img src="/bad_map_googed.png" alt="Map">
     <div class="container">
@@ -30,11 +36,6 @@
     </div>
 </div>
 
-<div class="buy_button{tickets_are_selected ? 'something_selected' : ''}">
-    <button on:click={() => {move_to_sale_page()}} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounde">
-        Kjøp nå!
-    </button>
-</div>
 
 <div class="list">
     <h2>Selected Tickets:</h2>
@@ -75,7 +76,6 @@
     border-radius: 32px;
     justify-content: center;
     display: flex;
-    position: absolute;
     bottom: -200px;
    }
    .list {

@@ -1,12 +1,21 @@
 
-<script>
-	import ArtistDiv from '$lib/ArtistDiv.svelte';
+<script lang="ts">
+
+    type ARTIST = {
+        src: string, 
+        name: string,
+        day: string, 
+    };
+    let artists: ARTIST[] = [
+        {src:"/artists/EvyAndJan.png", name:"Evy og Jan", day:"Fredag, Lørdag, Søndag."},
+        {src:"/artists/Screenshot 2025-02-16 152557.png", name:"Lillepus", day:"Lørdag, Søndag."},
+        {src:"/artists/images.jpg", name:"Toad.", day:"Søndag."},
+    ];
 
     let is_dev = true;
 </script>
 
-<body class="bg-gray-100">
-    <div>
+<div>
     <div class="FrontSection">
         <div class="Front">
             <img alt="Gjovdalfestival" src="/gjovdal_telt (DEMO)_smallblur.png">
@@ -28,13 +37,21 @@
         </div>
     </div>
     <div class="ArtistsSection">
+        <p style="position: relative; margin: auto; margin-top: 32px; font-family:monospace; font-size: 80px; text-align: center; ">~ 2026 ~</p>
         <div class="Artists">
+            {#each artists as artist}
+                <div class="ArtistBlock">
+                    <img src={artist.src} alt="Bilde av {artist.name}" />
+                    <div>
+                        <p style="font-size: x-large; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Name: {artist.name}<br>
+                        Dager: {artist.day}</p>
+                    </div>
+                </div>
+            {/each}
         </div>
-    </div>
-    <p>Penis</p>
-    </div>
+   </div>
+</div>
 
-</body>
 
 <style>
     .FrontSection {
@@ -43,7 +60,6 @@
         width: 100%;
         height: 1000px;
         background-color: #AE00FF;
-        border: 5px solid greenyellow;
     }
     .Front {
         position: relative;
@@ -79,18 +95,31 @@
         width: 100%;
         height: 1000px;
         display: block;
-        border: 5px solid red;
     }
 
     .Artists {
-        background-color: aquamarine;
-        border: 3px solid yellow;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 1fr;
-        max-width: 75%;
+        grid-template-rows: repeat(3, 1fr);
+        grid-auto-columns: 1fr;
+        max-width: 65%;
         width: 100%;
         margin: auto;
+
+        padding: 32px;
+        gap: 8px;
+    }
+
+    .ArtistBlock {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+
+        background-color: #4444448f;
+        padding: 8px;
+    }
+    .ArtistBlock img {
+        width: 200px;
+        height: 200px;
     }
 
 </style>
