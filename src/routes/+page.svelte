@@ -24,20 +24,26 @@
                     Nyt en festival i Gjovdal!
                 </h1>
                 <p style="color: whitesmoke; font-size: large; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
-                    Bli med pa en festival i Lille Gjovdal. Ta med kona di, Barna, fucking bikja om du vil. I don't care. 
-                    Jeg trenger bare text her. Trenger du text ring 911. Ring imorra. Ring I dag.
-                    Har du problem med protata? Ring legen din eller ring meg. Jeg kan ta en titt. 
+                    Bli med pa en festival i Lille Gjovdal. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 <a href="/tickets">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="position: relative; margin: auto; margin: 8px; ">
                         Kjøp Billeter her!   
                     </button>
                 </a>
             </div>
         </div>
     </div>
+    <div style="width: 100%; max-width: 60%; position: relative; height: auto; margin: auto; display: flex; flex-direction: row; justify-content: space-between;">
+        <p style="position: relative; font-size: 50px; font-family: s;">Ser du etter billetter?</p>
+        <a href="/tickets" style="margin: auto;">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="position: relative; margin-top: auto; height: 75%;">
+                Kjøp Billeter her!   
+            </button>
+        </a>
+    </div>
     <div class="ArtistsSection">
-        <p style="position: relative; margin: auto; margin-top: 32px; font-family:monospace; font-size: 80px; text-align: center; ">~ 2026 ~</p>
+        <p style="position: relative; margin: auto; font-family:monospace; font-size: 80px; text-align: center; ">~ 2026 ~</p>
         <div class="Artists">
             {#each artists as artist}
                 <div class="ArtistBlock">
@@ -72,7 +78,7 @@
         height: 700px;
         object-position: center;
     }
-    .Front button, p, h1 {
+    .Front p, h1 {
         position: relative;
         z-index: 1;
         max-width: 600px;
