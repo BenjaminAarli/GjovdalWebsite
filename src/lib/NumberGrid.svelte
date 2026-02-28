@@ -21,7 +21,6 @@
         for (let i = 0; i < amount; i++) {
             const ticket : Ticket = {
                 id: starting_id + i,
-                price: 200,
                 state: Math.random() < 0.5 ? 'available' : 'unavailable',
             };
             generated_tickets.push(ticket);
@@ -45,7 +44,7 @@
     }
 </script>
 
-<div class="ticket_grid">
+<div class="ticket_grid" {...$$restProps}>
     {#each ticket_slots as i}
         <div class="ticket_block {i.state}">
             <button on:click={() => ticket_clicked(i)}>

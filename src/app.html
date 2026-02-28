@@ -1,11 +1,57 @@
 <!doctype html>
 <html lang="en">
 	<head>
+		<link rel="icon" type="image/x-icon" href="/icons/church.png">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
+		<script
+  			async
+  			type="text/javascript"
+  			src="https://checkout.vipps.no/checkout-button/v1/vipps-checkout-button.js"
+		></script>
+		<title>Gjøvdal Dagen</title>
 	</head>
+	<header>
+		<img src="/icons/church.ico" alt="Back to Mainpage" href="/" />
+		<h1>
+			Gjøvdaldagen
+		</h1>
+	</header>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
+	<footer>
+		<p style="color: grey">&copy; 2026 Gjøvdal Kommune, Benjamin Aarli.</p>
+		<a href="https://www.flaticon.com/free-icons/church" title="church icons">Church icons created by DinosoftLabs - Flaticon</a>
+	</footer>
 </html>
+
+<style>
+    header {
+        background-color: black;
+		font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+		font-size: x-large;
+		color: whitesmoke;
+        text-align: center;
+        top: 0px;
+        left: 0px;
+        margin: 0px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+	header img {
+		position: absolute;
+		width: 48px;
+	}
+    footer {
+		color: grey;
+        background-color: black;
+        padding: 10px;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        bottom: 0px;
+        left: 0px;
+    }
+</style>
