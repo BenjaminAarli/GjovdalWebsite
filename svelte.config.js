@@ -20,15 +20,15 @@
 //   }
 // };
 
-
 import vercel from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
-import { vitePreprocess } from '@sveltejs/kit/vite';
 
-export default {
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
   kit: {
-    adapter: vercel(),
-    // other options...
+    adapter: vercel()
   },
-  preprocess: [vitePreprocess(), preprocess()]
+  preprocess: preprocess()
 };
+
+export default config;
