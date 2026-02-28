@@ -95,6 +95,8 @@
         width: 100%;
         height: 1000px;
         display: block;
+        background-color: darkgray;
+        color: whitesmoke;
     }
 
     .Artists {
