@@ -1,5 +1,6 @@
 
 <script lang="ts">
+	import { enhance } from "$app/forms";
 
     type ARTIST = {
         src: string, 
@@ -41,6 +42,9 @@
                 Kjøp Billeter her!   
             </button>
         </a>
+        <form method="POST">
+            <button name="upload" type="submit" style="width: 100px; height: 100px; background-color: green; z-index: 3; border: 1px solid red;">Fuck</button>
+        </form>
     </div>
     <div class="ArtistsSection">
         <p style="position: relative; margin: auto; font-family:monospace; font-size: 80px; text-align: center; ">~ 2026 ~</p>

@@ -1,5 +1,10 @@
-import { pgTable, serial, integer, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, serial, integer, boolean, timestamp, text } from 'drizzle-orm/pg-core';
 import pg from 'pg';
+
+export const testUpload = pgTable('demoticket', { 
+    id: serial('id').primaryKey(), 
+    content: text('content'), 
+});
 
 export const user = pgTable('user', { id: serial('id').primaryKey(), age: integer('age') });
 export const ticket = pgTable(
@@ -14,7 +19,7 @@ export const ticket = pgTable(
         price: integer('price')
             .notNull()         
             .default(200),
-    });
+});
 
 const pool = new pg.Pool({
   host: `/cloudsql/${process.env.instance_connection_namE}`,
