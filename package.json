@@ -4,7 +4,9 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "concurrently \"npm:dev:server\" \"npm:dev:proxy\"",
+		"dev:server": "vite dev",
+		"dev:proxy": "/tools/cloud-sql-proxy project-1ae50be0-355d-41fa-b51:europe-north1:gjovdaldemodb --port 5433",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
@@ -20,6 +22,7 @@
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio"
 	},
+
 	"devDependencies": {
 		"@eslint/compat": "^2.0.1",
 		"@eslint/js": "^9.39.2",
@@ -35,7 +38,8 @@
 		"@types/node": "^24",
 		"@types/pg": "^8.16.0",
 		"@vitest/browser-playwright": "^4.0.18",
-		"drizzle-kit": "^0.18.1",
+		"concurrently": "^9.2.1",
+		"drizzle-kit": "^0.31.9",
 		"drizzle-orm": "^0.45.1",
 		"eslint": "^10.0.1",
 		"eslint-config-prettier": "^10.1.8",
@@ -56,6 +60,7 @@
 		"vitest-browser-svelte": "^2.0.2"
 	},
 	"dependencies": {
+		"dotenv": "^17.3.1",
 		"pg": "^8.18.0",
 		"postgres": "^3.4.8"
 	}

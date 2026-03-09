@@ -12,23 +12,21 @@
         {src:"/artists/Screenshot 2025-02-16 152557.png", name:"Lillepus", day:"Lørdag, Søndag."},
         {src:"/artists/images.jpg", name:"Toad.", day:"Søndag."},
     ];
-
-    let is_dev = true;
 </script>
 
-<div>
+<div style="position: relative; display: flex; flex-direction: column;">
     <div class="FrontSection">
         <div class="Front">
             <img alt="Gjovdalfestival" src="/gjovdal_telt (DEMO)_smallblur.png">
-            <div style="position: relative; width: 50%; height: 100%; margin: auto; background: linear-gradient(to top, #00000000, purple);">
+            <div class="FrontSquare">
                 <h1 style="color: white; font-size: xx-large; font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; shadow: 8px;">
                     Nyt en festival i Gjovdal!
                 </h1>
                 <p style="color: whitesmoke; font-size: large; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
                     Bli med pa en festival i Lille Gjovdal. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
-                <a href="/tickets">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="position: relative; margin: auto; margin: 8px; ">
+                <a href="/tickets" style="position: relative; margin: auto; width: 100%; display: flex; justify-content: left;">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="position: relative; margin: auto; margin: 8px; width: 250px; height: 55px">
                         Kjøp Billeter her!   
                     </button>
                 </a>
@@ -38,16 +36,14 @@
     <div style="width: 100%; max-width: 60%; position: relative; height: auto; margin: auto; display: flex; flex-direction: row; justify-content: space-between;">
         <p style="position: relative; font-size: 50px; font-family: s;">Ser du etter billetter?</p>
         <a href="/tickets" style="margin: auto;">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="position: relative; margin-top: auto; height: 75%;">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded " style="position: relative; margin-top: auto; height: 75%;">
                 Kjøp Billeter her!   
             </button>
         </a>
-        <form method="POST">
-            <button name="upload" type="submit" style="width: 100px; height: 100px; background-color: green; z-index: 3; border: 1px solid red;">Fuck</button>
-        </form>
     </div>
     <div class="ArtistsSection">
-        <p style="position: relative; margin: auto; font-family:monospace; font-size: 80px; text-align: center; ">~ 2026 ~</p>
+        <p style="position: relative; margin: auto; font-family:monospace; font-size: 80px; text-align: center; margin-bottom: 0px;">~ 2026 ~</p>
+        <p style="position: relative; margin: auto; font-family:monospace; font-size: 20px; text-align: center; margin-top: 0px; top: -20px;">Artister</p>
         <div class="Artists">
             {#each artists as artist}
                 <div class="ArtistBlock">
@@ -68,28 +64,32 @@
         position: relative;
         display: block;
         width: 100%;
-        height: 1000px;
+        height: auto;
         background-color: #AE00FF;
+        padding-top: 64px;
+        padding-bottom: 64px;
     }
     .Front {
         position: relative;
         display: block;
         background-color: #AE00FF;
-        top: 128px;
         margin: auto;
+        margin-top: 8px;
+        margin-bottom: 8px; 
         width: 100%;
+        height: 75vh;
         /* max-width: 95vh; */
-        height: 700px;
         object-position: center;
     }
     .Front p, h1 {
         position: relative;
         z-index: 1;
-        max-width: 600px;
+        max-width: 800px;
         padding: 8px;
         overflow-wrap: break-word;
         word-break: break-word;
     }
+
     .Front img {
         position: absolute;
         display: block;
@@ -98,6 +98,16 @@
         z-index: 0;
         overflow: hidden;
         object-fit: cover;
+    }
+
+    .FrontSquare {
+        position: relative; 
+        width: 100%; 
+        max-width: 1250px;
+        height: 100%; 
+        margin: auto;
+        background: linear-gradient(to top, #00000000, #AE00CFCC, #AE00FFaa, #AE00CCFF );
+        padding: 16px;
     }
 
     .ArtistsSection {

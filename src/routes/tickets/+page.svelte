@@ -36,7 +36,7 @@
     </div>
 </div>
 
-
+<!--
 <div class="list">
     <h2>Selected Tickets:</h2>
     <ul>
@@ -45,7 +45,7 @@
         {/each}
     </ul>
 </div>
-
+-->
 <style>
     .BGImageDiv {
         position: relative;
@@ -77,6 +77,7 @@
     justify-content: center;
     display: flex;
     bottom: -200px;
+    z-index: 5;
    }
    .list {
     position: absolute;
