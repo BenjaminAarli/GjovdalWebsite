@@ -3,7 +3,7 @@
     import type { Ticket, TicketTypes } from '$lib/Ticket';
     import { createEventDispatcher } from 'svelte';
     
-    let amount = 30;
+    export let grid_amount = 30;
     export let starting_id = 1;
 
     let ticket_slots: Ticket[] = [];
@@ -18,7 +18,7 @@
     
     function generateCells() {
         let generated_tickets: Ticket[] = [];
-        for (let i = 0; i < amount; i++) {
+        for (let i = 0; i < grid_amount; i++) {
             const ticket : Ticket = {
                 id: starting_id + i,
                 state: Math.random() < 0.5 ? 'available' : 'unavailable',
@@ -48,9 +48,9 @@
     {#each ticket_slots as i}
         <div class="ticket_block {i.state}">
             <button on:click={() => ticket_clicked(i)}>
-                <h2>
+                <h2 style="pointer-events: none;">
                     {#if i.state === 'unavailable'}
-                        <i><p style="color: darkgrey;">{i.id}</p></i>
+                        <i><p style="pointer-events: none; color: darkgrey; font-size: 0.5em; ">{i.id}</p></i>
                     {:else}
                         {i.id}
                     {/if}
@@ -62,17 +62,16 @@
 
 <style>
     .ticket_grid {
-        width: 200px;
-        height: 400px;
+        /* grid-template-rows is set in the style of the element. */
         display: grid;
-        grid-template-rows: repeat(6, 1fr);
         grid-auto-flow: column;
         grid-auto-columns: 1fr;
-        
+
         border: 1px solid blue;
         
         background-color: lightslategray;
-        column-gap: 4px;        
+        column-gap: 4px;  
+        height: auto;      
    }
    .ticket_block {
         border: 1px solid black;

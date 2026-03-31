@@ -1,17 +1,27 @@
-
 <script lang="ts">
-	import { enhance } from "$app/forms";
+    let current_year = new Date().getFullYear();
+    let hover_index = "-1";
 
     type ARTIST = {
         src: string, 
         name: string,
-        day: string, 
+        day: number[], 
     };
+    
     let artists: ARTIST[] = [
-        {src:"/artists/EvyAndJan.png", name:"Evy og Jan", day:"Fredag, Lørdag, Søndag."},
-        {src:"/artists/Screenshot 2025-02-16 152557.png", name:"Lillepus", day:"Lørdag, Søndag."},
-        {src:"/artists/images.jpg", name:"Toad.", day:"Søndag."},
+        {src:"/artists/EvyAndJan.png", name:"Evy og Jan", day: [0, 1, 2]},
+        {src:"/artists/Screenshot 2025-02-16 152557.png", name:"Lillepus", day: [1, 2]},
+        {src:"/artists/images.jpg", name:"Toad.", day: [2]},
     ];
+
+    type POSTS = {
+        user: string, 
+        day: number[],
+        src: string,
+        text: string,
+    }
+    let posts: POSTS[] = [];
+
 </script>
 
 <div style="position: relative; display: flex; flex-direction: column;">
@@ -42,15 +52,24 @@
         </a>
     </div>
     <div class="ArtistsSection">
-        <p style="position: relative; margin: auto; font-family:monospace; font-size: 80px; text-align: center; margin-bottom: 0px;">~ 2026 ~</p>
-        <p style="position: relative; margin: auto; font-family:monospace; font-size: 20px; text-align: center; margin-top: 0px; top: -20px;">Artister</p>
-        <div class="Artists">
+        <p class="ArtistsSectionText" style="font-size: 80px; margin-bottom: 0px;">~ {current_year} ~</p>
+        <p class="ArtistsSectionText" style="font-size: 20px; margin-top: 0px;">Artister</p>
+        <div class="ArtistGrid">
             {#each artists as artist}
                 <div class="ArtistBlock">
                     <img src={artist.src} alt="Bilde av {artist.name}" />
-                    <div>
-                        <p style="font-size: x-large; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Name: {artist.name}<br>
-                        Dager: {artist.day}</p>
+                    <div class="ArtistBlockTextDiv">
+                        <p>Name: {artist.name}</p>
+                        <div style="display: flex; flex-direction: row; s background-color: green; border: 1px solid black; border-radius: 8px; width: fit-content; padding: 4px; gap: 2px">
+                            {#each ["Fredag", "Lørdag", "Søndag"] as day, index}
+                                <!-- Check the index, as Fre is 5, Lør is 6 and Søn is 7. -->
+                                <div role="button" tabindex="{index}" class="ArtistBlockDay {artist.day.includes(index) ? '' : 'Deactive'}" on:mouseenter={() => {hover_index = artist.name + index}} on:mouseleave={() => {hover_index = ""}}>
+                                    <p style="pointer-events: none; vertical-align: middle; margin: auto; font-size: 2em; {index === 2 ? 'color: #d9534f;' : ''}">
+                                        {day}
+                                    </p>
+                                </div>
+                            {/each}
+                        </div>
                     </div>
                 </div>
             {/each}
@@ -59,7 +78,55 @@
 </div>
 
 
+<div class="PostsBlock">
+    {#each posts as post}
+        <div></div>
+    {/each}
+</div>
+
 <style>
+    .PostsBlock {
+        width: 100%;
+        height: auto; 
+    }
+
+    .Posts {
+
+    }   
+
+
+    .ArtistBlockDay {
+        justify-content: center; 
+        text-align: center; 
+        width: 45px; 
+        height: 45px;
+        border: 1px solid silver;
+        background-color: white;
+        color: black;
+        flex: 1;
+        transition: flex 0.3s ease;
+    }
+
+    .ArtistBlockDay p {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 1ch;
+        transition: width 0.25s;
+    }
+    .ArtistBlockDay:hover p {
+        width: 6ch;
+    }
+
+    .ArtistBlockDay:hover {
+        flex: 7;
+    }
+    
+    .ArtistBlockDay.Deactive {
+        border: 1px solid darkgrey;
+        background-color: darkgrey;
+        color: lightgrey;
+    }
+
     .FrontSection {
         position: relative;
         display: block;
@@ -119,12 +186,19 @@
         color: whitesmoke;
     }
 
-    .Artists {
+    .ArtistsSectionText {
+        position: relative; 
+        margin: auto; 
+        font-family:monospace; 
+        text-align: center; 
+    }
+
+    .ArtistGrid {
         display: grid;
         grid-template-rows: repeat(3, 1fr);
         grid-auto-columns: 1fr;
-        max-width: 65%;
         width: 100%;
+        max-width: 1000px;
         margin: auto;
 
         padding: 32px;
@@ -142,6 +216,13 @@
     .ArtistBlock img {
         width: 200px;
         height: 200px;
+    }
+    .ArtistBlockTextDiv {
+        margin: 8px;
+    }
+    .ArtistBlockTextDiv p {
+        font-family: monospace;
+        font-size: xx-large;
     }
 
 </style>

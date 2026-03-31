@@ -1,6 +1,7 @@
 import { db } from "$lib/server/db";
 import { purchase, ticket } from "$lib/server/db/schema";
 import type { Actions } from "@sveltejs/kit";
+import { env } from "process";
 
 export const actions: Actions = {
     default: async ({ request }) => {
@@ -34,7 +35,7 @@ export const actions: Actions = {
                 throw new Error("Failed to create purchase");
             }
 
-            const vippsReponse = null; // Create vipps purchase and check if it completes. 
+            const vippsReponse = await null; // Create vipps purchase and check if it completes. 
 
             return { success: true }
         } catch ( error ) {
@@ -43,3 +44,16 @@ export const actions: Actions = {
         }
     } 
 }
+
+async function vippsPayment(
+    params: {
+        amount: number, 
+        phoneNumber: string, 
+        orderNumber: number, 
+        orderRef: string, 
+        returnURL: string
+    }){
+        const auth = Buffer.from(
+            process.env.VIPPS_CLIENT_ID + ':' + process.env.VIPPS_CLIENT_SECRET
+        ).toString('base64');
+    }
