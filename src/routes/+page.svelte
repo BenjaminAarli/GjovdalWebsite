@@ -77,7 +77,6 @@
    </div>
 </div>
 
-
 <div class="PostsBlock">
     {#each posts as post}
         <div></div>

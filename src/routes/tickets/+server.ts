@@ -17,7 +17,6 @@ export const POST: RequestHandler = async ({ request }) => {
     return new Response(JSON.stringify({ success: true }));
 };
 
-
 // The days are integers. 
 // Friday is 1, Saturday 2, Sunday 3. 
 // Friday and Saturday is 4, Friday and Sunday is 5, 

@@ -1,7 +1,6 @@
 import { db } from "$lib/server/db";
 import { purchase, ticket } from "$lib/server/db/schema";
 import type { Actions } from "@sveltejs/kit";
-import { env } from "process";
 
 export const actions: Actions = {
     default: async ({ request }) => {
@@ -10,10 +9,11 @@ export const actions: Actions = {
             // const cart: string | undefined = (await data).get('cart')?.toString();
             // const cart_parsed: Ticket[] = cart ? JSON.parse(cart) : [];
             
-            const fullname      = data.form_name as string; 
-            const email         = data.form_email as string;
-            const phone         = data.form_phone as string;
-            const tickets       = ["F2", "G4"] // placeholder.
+            const fullname      = data.form_name    as string; 
+            const email         = data.form_email   as string;
+            const phone         = data.form_phone   as string;
+            const tickets       = data.form_tickets as string;
+            
             // const note = (await form).get('note');
             
             console.log("\n\n\nFormdata: ", fullname, " | ", email, " | ", phone, "\n\n\n")

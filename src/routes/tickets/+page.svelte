@@ -36,14 +36,13 @@
     {#if map_layer}
     <img src="/badmap_03_nogrid_02.png" alt="Map">
     <div class="container">
-        <NumberGrid style="position: absolute; left: 237px; top: 285px; transform: scale(0.75, 0.95); grid-template-rows: repeat(6, 1fr);" grid_amount={36} bind:tickets_selected={grid_a_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} />
-        <NumberGrid style="position: absolute; left: 255px; top: 38px;  transform: scale(0.75, 0.75);  grid-template-rows: repeat(7, 1fr);" grid_amount={28} bind:tickets_selected={grid_b_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} starting_id={1} />
-        <NumberGrid style="position: absolute; left: 140px; top: 20px;  transform: scale(0.75, 0.7);  grid-template-rows: repeat(6, 1fr);" grid_amount={12} bind:tickets_selected={grid_b_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} starting_id={13} />
-        <NumberGrid style="position: absolute; left: 200px; top: 55px;  transform: scale(0.75);    grid-template-rows: repeat(2, 1fr);" grid_amount={2}  bind:tickets_selected={grid_b_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} starting_id={1} /> 
+        <NumberGrid style="position: absolute; left: 237px; top: 285px; transform: scale(0.75, 0.95);   grid-template-rows: repeat(6, 1fr);" grid_amount={36} bind:tickets_selected={grid_a_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} />
+        <NumberGrid style="position: absolute; left: 255px; top: 38px;  transform: scale(0.75, 0.75);   grid-template-rows: repeat(7, 1fr);" grid_amount={28} bind:tickets_selected={grid_b_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} starting_id={1} />
+        <NumberGrid style="position: absolute; left: 140px; top: 20px;  transform: scale(0.75, 0.7);    grid-template-rows: repeat(6, 1fr);" grid_amount={12} bind:tickets_selected={grid_b_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} starting_id={13} />
+        <NumberGrid style="position: absolute; left: 200px; top: 55px;  transform: scale(0.75);         grid-template-rows: repeat(2, 1fr);" grid_amount={2}  bind:tickets_selected={grid_b_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} starting_id={1} /> 
     
-        <NumberGrid style="position: absolute; left: 25px; top: 190px; width: 200px; height: 75px; transform: scale(0.75, 0.75);    grid-template-rows: repeat(3, 1fr);" grid_amount={15}  bind:tickets_selected={grid_b_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} starting_id={1} /> 
+        <NumberGrid style="position: absolute; left: 25px;  top: 190px; width: 200px; height: 75px; transform: scale(0.75, 0.75);    grid-template-rows: repeat(3, 1fr);" grid_amount={15}  bind:tickets_selected={grid_b_selected} on:tickets_selected={() => {update_tickets(); console.log(tickets_selected)}} starting_id={1} /> 
         
-    
     </div>
     {:else}
         <iframe title="Overlay Map" src="https://www.google.com/maps/d/embed?mid=1jqO1f3EsvO3zMc1XXGKe1frrifqFhdk&ehbc=2E312F" style="width: 100%; height: 100%;"></iframe>

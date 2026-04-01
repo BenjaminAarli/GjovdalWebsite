@@ -31,6 +31,8 @@
                 input.value = formatted;
             });
         };
+        const form_tickets = document.getElementById('form_tickets') as HTMLInputElement; 
+        form_tickets.value = tickets.toString();
     });
     function remove_ticket(ticket_id: number) {
         let cart: string | null = localStorage.getItem('cart');
@@ -42,12 +44,12 @@
     }
 </script>   
 
-
 <div class="form_div">
     <form id="person_data" method="POST">
         <input id="form_name"   name="form_name"    type="text" placeholder="Navn" />
         <input id="form_email"  name="form_email"   type="email" placeholder="Email"/>
         <input id="form_phone"  name="form_phone"   type="tel"  placeholder="Telefon Nummer"/>
+        <input id="form_tickets" name="form_tickets" type="hidden"/>
         <!-- <input type="submit" /> # moved elsewhere. -->
     </form>
 </div>
