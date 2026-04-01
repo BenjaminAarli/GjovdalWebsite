@@ -7,4 +7,8 @@ if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
 const client = postgres(process.env.DATABASE_URL!);
 
-export const db = drizzle(client, { schema });
+// export const db = drizzle(client, { schema });
+
+import { env } from '$env/dynamic/private';
+
+const db = drizzle(env.DATABASE_URL);
