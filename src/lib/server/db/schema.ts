@@ -21,13 +21,13 @@ export const purchase = pgTable(
         fullname: varchar('name', { length: 255 }).notNull(),
         email: varchar('email', { length: 320 }).notNull(),
         cellphone: varchar('cellphone', { length: 20 }).notNull(),
-        tickets: text('tickets').array().notNull(),
+        tickets: text('tickets').notNull(),
         date_of_purchase: timestamp('date_of_purchase', { withTimezone: true }).defaultNow().notNull(),
         notes: varchar('notes', { length: 255 }),
         vipps_confirmed: boolean('vipps_confirmed').default(false), 
         vipps_payment_id: varchar('vipps_payment_id', { length: 100 }), 
         vipps_payment_status: varchar('vipps_payment_status', { length: 20})
-})
+});
 
 export const ticket = pgTable(
     'ticket', {
