@@ -77,21 +77,21 @@
    </div>
 </div>
 
-<div class="PostsBlock">
+<!-- <div class="PostsBlock">
     {#each posts as post}
         <div></div>
     {/each}
-</div>
+</div> -->
 
 <style>
-    .PostsBlock {
+    /* .PostsBlock {
         width: 100%;
         height: auto; 
-    }
+    } */
 
-    .Posts {
+    /* .Posts {
 
-    }   
+    }    */
 
 
     .ArtistBlockDay {
