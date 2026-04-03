@@ -62,6 +62,7 @@
 
 <style>
     .ticket_grid {
+        position: absolute;
         /* grid-template-rows is set in the style of the element. */
         display: grid;
         grid-auto-flow: column;
