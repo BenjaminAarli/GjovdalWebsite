@@ -1,4 +1,4 @@
-import { db } from "$lib/server/db";
+import { getDatabase } from "$lib/server/db";
 import { purchase, ticket } from "$lib/server/db/schema";
 import type { Actions } from "@sveltejs/kit";
 
@@ -18,7 +18,7 @@ export const actions: Actions = {
             
             console.log("\n\n\nFormdata: ", fullname, " | ", email, " | ", phone, "\n\n\n")
 
-            const [pending_purchase] = await db
+            const [pending_purchase] = await getDatabase()
             .insert(purchase)
             .values({
                 fullname: fullname, 
@@ -45,15 +45,15 @@ export const actions: Actions = {
     } 
 }
 
-async function vippsPayment(
-    params: {
-        amount: number, 
-        phoneNumber: string, 
-        orderNumber: number, 
-        orderRef: string, 
-        returnURL: string
-    }){
-        const auth = Buffer.from(
-            process.env.VIPPS_CLIENT_ID + ':' + process.env.VIPPS_CLIENT_SECRET
-        ).toString('base64');
-    }
+// async function vippsPayment(
+//     params: {
+//         amount: number, 
+//         phoneNumber: string, 
+//         orderNumber: number, 
+//         orderRef: string, 
+//         returnURL: string
+//     }){
+//         const auth = Buffer.from(
+//             process.env.VIPPS_CLIENT_ID + ':' + process.env.VIPPS_CLIENT_SECRET
+//         ).toString('base64');
+//     }
