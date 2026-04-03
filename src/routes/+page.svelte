@@ -16,11 +16,16 @@
 
     type POSTS = {
         user: string, 
-        day: number[],
+        day: string,
         src: string,
         text: string,
     }
-    let posts: POSTS[] = [];
+
+    let posts: POSTS[] = [
+        {user: "Hans Person", day: new Date().toDateString(), src: '/adjaiwjd.jpg', text: "Hello world"},
+        {user: "Mars Planet", day: new Date().toDateString(), src: '', text: "Denne Posten er uten bilde. Så du kan skrive om hva som helst, football, kanonball, e-sports, spiller ingen rolle. Jeg kan skrive om verdensrommet om jeg vil. Who cares! Bla Ble Blo."},
+        {user: "Mars Planet", day: new Date().toDateString(), src: '/awdaawdawd.jpeg', text: "Lille Laget"},
+    ];
 
 </script>
 
@@ -77,22 +82,46 @@
    </div>
 </div>
 
-<!-- <div class="PostsBlock">
-    {#each posts as post}
-        <div></div>
-    {/each}
-</div> -->
+<div style="width: 100%; height: 82px; display: flex; flex-direction: column; margin: auto; justify-content: center; align-items: center; gap: 2px;">
+    <h1>Opdateringer fra laget!</h1>
+    <img src='/icons/arrow.png' alt='arrow down' style='width: 32px; height: 32px;'/>
+</div>
+
+<div class="PostsBlock">
+    <div class="Posts">
+        {#each posts as post}
+        <div style="width: 500px; height: auto; background-color: whitesmoke; border: 4px solid #fff; ">
+            <div style="height: 50px; background-color: grey; display: flex; justify-content: center; align-items: center;">
+                <img style='width: 25px; height: 25px;' src='/icons/circle.png' alt='Publisher Face'/>
+                <h1 style='margin: 0px'>{post.user}</h1>
+            </div>
+            <h1>{post.text}</h1>
+            {#if (post.src)}<img alt="{post.text}" src={post.src} style="width: 400px; height: 400px; display: flex; margin: auto; border: 4px solid grey; border-radius: 4px;"/> {/if}
+            <p>{post.day}</p>
+        </div>
+        {/each}
+    </div>
+</div>
 
 <style>
-    /* .PostsBlock {
+    .PostsBlock {
         width: 100%;
-        height: auto; 
-    } */
+        height: auto;
+        min-height: 1000px; 
+        background-color: #999;
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
 
-    /* .Posts {
-
-    }    */
-
+    .Posts {
+        height: 100%; 
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        gap: 24px;
+    }
 
     .ArtistBlockDay {
         justify-content: center; 
