@@ -26,7 +26,9 @@
         {user: "Mars Planet", day: new Date().toDateString(), src: '', text: "Denne Posten er uten bilde. Så du kan skrive om hva som helst, football, kanonball, e-sports, spiller ingen rolle. Jeg kan skrive om verdensrommet om jeg vil. Who cares! Bla Ble Blo."},
         {user: "Mars Planet", day: new Date().toDateString(), src: '/awdaawdawd.jpeg', text: "Lille Laget"},
     ];
+    const getPosts = () => {
 
+    }
 </script>
 
 <div style="position: relative; display: flex; flex-direction: column;">
@@ -79,18 +81,20 @@
                 </div>
             {/each}
         </div>
-   </div>
+    </div>
 </div>
 
 <div style="width: 100%; height: 82px; display: flex; flex-direction: column; margin: auto; justify-content: center; align-items: center; gap: 2px;">
+    <button title="Show more posts" style="width: 100%; height: 100%; top: 0px; left: 0px; z-index: 1; position: relative;"></button>
     <h1>Opdateringer fra laget!</h1>
+    <p>Klikk her for å see de!</p>
     <img src='/icons/arrow.png' alt='arrow down' style='width: 32px; height: 32px;'/>
 </div>
 
 <div class="PostsBlock">
     <div class="Posts">
         {#each posts as post}
-        <div style="width: 500px; height: auto; background-color: whitesmoke; border: 4px solid #fff; ">
+        <div style="width: 500px; height: auto; background-color: whitesmoke; border: 4px solid #fff; border-radius: 4px; ">
             <div style="height: 50px; background-color: grey; display: flex; justify-content: center; align-items: center;">
                 <img style='width: 25px; height: 25px;' src='/icons/circle.png' alt='Publisher Face'/>
                 <h1 style='margin: 0px'>{post.user}</h1>
@@ -100,6 +104,7 @@
             <p>{post.day}</p>
         </div>
         {/each}
+        <button style="border: 1px solid black; width: 100%; height: 45px; background-color: aliceblue;">Se mer</button>
     </div>
 </div>
 
@@ -110,6 +115,7 @@
         min-height: 1000px; 
         background-color: #999;
         padding-top: 20px;
+        padding-bottom: 20px;
         display: flex;
         justify-content: center;
     }
