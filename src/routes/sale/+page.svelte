@@ -4,6 +4,7 @@
     
     let tickets: Ticket[] = []; 
     let sent_info = false;
+    let payment_open = false;
 
     // Set current tickets as the cookie 'cart' in localStorage.
     if (typeof window !== 'undefined'){
@@ -13,6 +14,7 @@
             console.log("Ticket: ", ticket);
         }
         tickets = cart_parsed;
+        payment_open = localStorage.getItem('PaymentReady') === 'true';
     }
     onMount(() => {
         // Formats the string in input into a xxx xx xxx rather than xxxxxxxx. 
@@ -42,13 +44,14 @@
         localStorage.setItem('cart', JSON.stringify(new_cart)); // updates the "cookie"
         tickets = [...new_cart]; // updates the actual cart on screen.  
     }
+    
 </script>   
 
 <div class="form_div">
     <form id="person_data" method="POST">
-        <input id="form_name"   name="form_name"    type="text" placeholder="Navn" />
-        <input id="form_email"  name="form_email"   type="email" placeholder="Email"/>
-        <input id="form_phone"  name="form_phone"   type="tel"  placeholder="Telefon Nummer"/>
+        <input id="form_name"    name="form_name"     type="text"   placeholder="Navn" />
+        <input id="form_email"   name="form_email"    type="email"  placeholder="Email"/>
+        <input id="form_phone"   name="form_phone"    type="tel"    placeholder="Telefon Nummer"/>
         <input id="form_tickets" name="form_tickets" type="hidden"/>
         <!-- <input type="submit" /> # moved elsewhere. -->
     </form>
@@ -67,7 +70,7 @@
     </div>
     {/each}
     <p>Total pris: {tickets.length * 1200}kr</p>
-    <button type="submit" form="person_data" class="checkout_button" style="width: 100%;">Checkout</button>
+    <button type="submit" form="person_data" class="checkout_button" style="width: 100%;" on:click={() => {localStorage.setItem('PaymentReady', 'true')}}>Betal nå</button>
 </div>
 
 {#if sent_info}
@@ -86,8 +89,20 @@
 </div>
 {/if}
 
+{#if payment_open}
+<div style="width: 100%; height: 550px; display: flex; flex-direction: column; margin: auto; position: relative; justify-content: center; gap: 8px;">
+    <div style="width: 500px; display: flex; margin: auto; background-color: grey; border: 1px solid whitesmoke; border-radius: 8px; padding: 32px; gap: 8px; font-style: oblique; text-align: center;">
+        <div>
+            <p>Du kan betale med VIPPS via denne QR koden.</p>
+            <p><br>ELLER<br><br>Betal direkte til bankkonto som er skrevet under</p>
+            <p style="background-color: whitesmoke; border: 1px solid red; border-radius: 8px; margin-top: 8px;">0123 456 7890</p>
+        </div>
+        <img src='/qr_gjovdal.jpg' alt='Payment QR Code.' style="width: 250px; position: relative; margin: auto;">
+    </div>
+</div>
+{/if}
 
-
+<div style="height: 750px;"></div>
 
 <style>
     /** FORM - Personal Info **/

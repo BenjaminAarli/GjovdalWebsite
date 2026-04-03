@@ -14,10 +14,12 @@ export const actions: Actions = {
             const phone         = data.form_phone   as string;
             const tickets       = data.form_tickets as string;
             
+            if (!fullname || !email || !phone || !tickets) {
+                throw new Error("Missing Form Information");
+            };
+
             // const note = (await form).get('note');
             
-            console.log("\n\n\nFormdata: ", fullname, " | ", email, " | ", phone, "\n\n\n")
-
             const [pending_purchase] = await getDatabase()
             .insert(purchase)
             .values({
