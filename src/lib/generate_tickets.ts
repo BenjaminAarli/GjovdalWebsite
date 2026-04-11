@@ -4,7 +4,7 @@ import { serverTimestamp } from 'firebase/firestore';
 
 const generate_tickets = async (_field: string, _amount: number) => {
     const batch = db.batch();
-    const ticketCol = db.collection('tickets');
+    const ticketCol = await db.collection('tickets');
     
     for (let i = 1; i <= _amount; i++){
         const ticketData = {

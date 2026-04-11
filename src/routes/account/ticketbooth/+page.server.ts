@@ -13,7 +13,7 @@ export interface Purchase {
 }
 
 export async function load({ cookies }){
-    const docRef = db.collection('purchase');
+    const docRef = await db.collection('purchase');
     const docSnap = await docRef.get();
 
     const purchases: Purchase[] = docSnap.docs

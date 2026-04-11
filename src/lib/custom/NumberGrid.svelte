@@ -62,10 +62,10 @@
 <div class="ticket_grid" {...restProps}>
     {#each display_array as i}
         <div class="ticket_block {i.state}" style="background-color: {i.field}">
-            <button onclick={() => ticket_clicked(i)}>
+            <button style="font-size: xx-small;" onclick={() => ticket_clicked(i)}>
                 <h2 style="pointer-events: none;">
                     {#if i.state === 'unavailable'}
-                        <i><p style="pointer-events: none; color: darkgrey; font-size: xx-small; ">{i.index}</p></i>
+                        <i><p style="pointer-events: none; color: darkgrey;">{i.index}</p></i>
                     {:else}
                         {i.index}
                     {/if}
