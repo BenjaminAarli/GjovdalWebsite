@@ -65,7 +65,7 @@
             <button onclick={() => ticket_clicked(i)}>
                 <h2 style="pointer-events: none;">
                     {#if i.state === 'unavailable'}
-                        <i><p style="pointer-events: none; color: darkgrey; font-size: 0.5em; ">{i.index}</p></i>
+                        <i><p style="pointer-events: none; color: darkgrey; font-size: xx-small; ">{i.index}</p></i>
                     {:else}
                         {i.index}
                     {/if}

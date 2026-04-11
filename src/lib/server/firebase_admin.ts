@@ -21,40 +21,50 @@ async function initializeFirestore(): Promise<Firestore | null> {
     try {
         const keyString = process.env.FIREBASE_KEY_JSON;
 
-        // 4. Handle build-time gracefully. If the env var isn't set, we stop here.
-        //    This prevents the build from crashing and doesn't throw an error.
+        // 4. Handle build-time gracefully.
         if (!keyString) {
-            console.warn('⚠️ FIREBASE_KEY_JSON environment variable is not set. This is expected during the build phase. Firestore will not be available.');
+            console.warn('⚠️ FIREBASE_KEY_JSON environment variable is not set.');
             return null;
         }
 
-        // 5. Parse the environment variable.
+        // 5. Parse and validate.
         const keyJson = JSON.parse(keyString);
-
-        // 6. Validate the required fields.
         if (!keyJson.private_key || !keyJson.client_email || !keyJson.project_id) {
-            console.error('❌ FIREBASE_KEY_JSON is missing required fields ("private_key", "client_email", "project_id").');
+            console.error('❌ FIREBASE_KEY_JSON is missing required fields.');
             return null;
         }
 
-        // 7. Fix the private key formatting (this is required).
+        // 6. Fix the private key formatting.
         keyJson.private_key = keyJson.private_key.replace(/\\n/g, '\n');
 
-        // 8. Dynamically import 'firebase-admin' only when needed at runtime.
-        const admin = await import('firebase-admin');
+        // 7. Import firebase-admin. We use 'require' here for compatibility with
+        //    how Vite bundles server-side code, which can sometimes cause issues
+        //    with dynamic `await import()` for this specific module.
+        const admin = require('firebase-admin');
 
-        // 9. Initialize the app if it's not already.
-        if (!admin.apps.length) {
+        // 8. Initialize the app. The previous error was because `admin.apps` was
+        //    undefined. This check is safer.
+        if (admin.apps && admin.apps.length === 0) {
             admin.initializeApp({
                 credential: admin.credential.cert(keyJson)
             });
             console.log('✅ Firebase Admin app initialized.');
+        } else if (!admin.apps) {
+            // Fallback: just try to initialize if we can't check the apps array.
+            try {
+                admin.initializeApp({
+                    credential: admin.credential.cert(keyJson)
+                });
+                console.log('✅ Firebase Admin app initialized (fallback).');
+            } catch (appError) {
+                // If it throws because the default app already exists, we can ignore it.
+                console.warn('Firebase app may already exist:', appError);
+            }
         }
 
-        // 10. Get and configure Firestore.
+        // 9. Get and configure Firestore.
         dbInstance = admin.firestore();
         
-        // Use a specific database ID if one is provided
         const databaseId = process.env.FIREBASE_DATABASE_ID || 'gjovdal';
         dbInstance.settings({ databaseId });
         
@@ -62,24 +72,21 @@ async function initializeFirestore(): Promise<Firestore | null> {
 
         return dbInstance;
     } catch (error) {
-        // 11. Catch any other errors (e.g., JSON parsing errors).
         console.error('❌ FATAL: Failed to initialize Firebase Admin:', error);
         initError = error as Error;
         return null;
     }
 }
 
-// Export a proxy that lazily initializes Firestore only when a method is called.
-// This is the key to a successful build, as it prevents any Firebase code from running at build time.
+// Export the same proxy pattern. This is still the best way to prevent build errors.
 export const db = new Proxy({} as Firestore, {
     get(_, prop) {
-        // Return an async function for any property access (e.g., db.collection('purchases').get())
         return async (...args: any[]) => {
             const firestore = await initializeFirestore();
             if (!firestore) {
                 throw new Error(`Firestore is not available. Method '${String(prop)}' cannot be called.`);
             }
-            // @ts-ignore - We know this is a Firestore method.
+            // @ts-ignore
             const method = firestore[prop];
             if (typeof method === 'function') {
                 return method.apply(firestore, args);
@@ -89,7 +96,6 @@ export const db = new Proxy({} as Firestore, {
     }
 });
 
-// Helper function for explicit initialization if needed elsewhere.
 export async function getDatabase() {
     return initializeFirestore();
 }
