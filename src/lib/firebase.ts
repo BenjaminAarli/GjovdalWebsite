@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { getApps, initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore, orderBy } from "firebase/firestore";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 import type { Ticket } from "./Ticket";
 
 // TODO: Add SDKs for Firebase products that you want to use
