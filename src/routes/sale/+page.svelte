@@ -11,16 +11,17 @@
     let purchaseID = $state<string | null>(data.purchaseID);
     
     onMount(() => {
-        let cart: string | null = localStorage.getItem('cart');
-        let cart_parsed: Ticket[] = cart ? JSON.parse(cart) : [];   
-
-        let t = []
-        for (const ticket of cart_parsed){
-            console.log("Ticket: ", ticket);
-            t.push(ticket)
+        let cart: string | null = localStorage.getItem('cart') || '[]';
+        
+        if (cart) {
+            try {
+                let cart_parsed: Ticket[] = cart ? JSON.parse(cart) : [];   
+                tickets = Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                console.error('Failed to parse cart:', e);
+                tickets = [];
+            }
         }
-        tickets = t;
-        payment_open = localStorage.getItem('PaymentReady') === 'true';
 
         // Formats the string in input into a xxx xx xxx rather than xxxxxxxx. 
         const input = document.getElementById('Phone') as HTMLInputElement | null;
@@ -40,7 +41,6 @@
         const form_tickets = document.getElementById('form_tickets') as HTMLInputElement;
 
         form_tickets.value = JSON.stringify(tickets);
-        console.log("TICKETS TO STRING: ", JSON.stringify(tickets))
     });
     function remove_ticket(ticket: Ticket) {
         let cart: string | null = localStorage.getItem('cart');
@@ -63,14 +63,6 @@
     </form>
 </div>
 
-
-<!-- {#if purchaseID !== null}
-<div style="width: 100%; display: flex; justify-content: center; align-items: center;">
-        <p>Tickets: {tickets}</p>
-        <p>Dette er billetten IDen din: {purchaseID}</p>
-    </div>
-{/if} -->
-
 <div class="tickets"> 
     {#each tickets as ticket}
     <div style="display: flex; flex-direction: row;">
@@ -87,7 +79,6 @@
     <button type="submit" form="person_data" class="checkout_button" style="width: 100%;" onclick={() => {localStorage.setItem('PaymentReady', 'true')}}>Betal nå</button>
 </div>
 
-{#if payment_open}
 <div style="width: 100%; height: 550px; display: flex; flex-direction: column; margin: auto; position: relative; justify-content: center; gap: 8px;">
     <div style="width: 500px; display: flex; margin: auto; background-color: lightgrey; border: 1px solid whitesmoke; border-radius: 8px; padding: 32px; gap: 8px; font-style: oblique; text-align: center;">
         <div>
@@ -99,7 +90,6 @@
         <img src='/qr_gjovdal.jpg' alt='Payment QR Code.' style="width: 250px; position: relative; margin: auto;">
     </div>
 </div>
-{/if}
 
 <div style="height: 750px;"></div>
 
