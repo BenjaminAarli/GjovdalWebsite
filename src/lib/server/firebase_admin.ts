@@ -1,18 +1,29 @@
 import admin from 'firebase-admin';
 import 'dotenv/config';
 
-
 const keyString: string = process.env.FIREBASE_KEY_JSON || "{}";
-const keyJson = JSON.parse(keyString) || {};
+let keyJson;
 
-if (keyJson) {
-  console.log(keyJson);
-  keyJson.private_key = keyJson.private_key.replace(/\\n/g, '\n');
-};
+try {
+    keyJson = JSON.parse(keyString);
+} catch (e) {
+    console.warn('⚠️ Failed to parse FIREBASE_KEY_JSON, using empty object');
+    keyJson = {};
+}
 
-admin.initializeApp({
-  credential: admin.credential.cert(keyJson)
-});
+if (keyJson.private_key && keyJson.client_email && keyJson.project_id) {
+    if (keyJson.private_key) {
+        keyJson.private_key = keyJson.private_key.replace(/\\n/g, '\n');
+    }
+    
+    admin.initializeApp({
+        credential: admin.credential.cert(keyJson)
+    });
+    
+    console.log('✅ Firebase Admin initialized');
+} else {
+    console.warn('⚠️ Firebase credentials incomplete - skipping initialization');
+}
 
 export const db = admin.firestore();
 
