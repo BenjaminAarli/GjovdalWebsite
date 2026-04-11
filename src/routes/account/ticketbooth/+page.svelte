@@ -47,9 +47,7 @@
             </div>
             <div style="display: flex; flex-direction: column; justify-content: space-between">
                 <button style="background-color: slate; border: 1px solid green; border-radius: 8px;">Confirm</button>
-                <form method="POST" action="?/denyPurchase">
-                    <button style="background-color: slate; border: 1px solid red; border-radius: 8px;" type='submit' >Deny</button>
-                </form>
+                <button style="background-color: slate; border: 1px solid red; border-radius: 8px;" type='submit' >Deny</button>
             </div>     
         </div>
     {/each}

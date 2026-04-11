@@ -48,16 +48,4 @@ export const actions: Actions = {
             return {error: "Faield to do this."}
         }
     },
-    denyPurchase: async ({ purchase } ) => {
-        try {
-            
-            console.log("Denied purchase");
-
-            return { success: true }
-        }
-        catch ( error ) {
-            return {error: "Faield to do this."}
-        }
-    }
-    
 };
