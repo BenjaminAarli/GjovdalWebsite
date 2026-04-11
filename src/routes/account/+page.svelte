@@ -1,4 +1,3 @@
-
 <div class='LoginBlock'>
     <form method="POST">
         <input type="text"      placeholder="Account Name"/>

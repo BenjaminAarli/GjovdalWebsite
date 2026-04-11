@@ -20,7 +20,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-
 const db = getFirestore(app, 'gjovdal');
 
 export function getDatabase(){

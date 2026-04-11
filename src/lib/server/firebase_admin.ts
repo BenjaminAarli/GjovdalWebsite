@@ -14,12 +14,10 @@ if (keyJson) {
     }
 };
 
-export let db: admin.firestore.Firestore | null = null;
-if (admin) {
-  db = admin.firestore();
-  const settings = { databaseId: 'gjovdal' };
-  db.settings(settings);
-}
+export let db: admin.firestore.Firestore = admin.firestore();
+const settings = { databaseId: 'gjovdal' };
+db.settings(settings);
+
 
 export function getDatabase(){
   return db;
