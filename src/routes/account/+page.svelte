@@ -1,6 +1,6 @@
 
 <div class='LoginBlock'>
-    <form>
+    <form method="POST">
         <input type="text"      placeholder="Account Name"/>
         <input type="password"  placeholder="Password"/>
         <input type="submit" value="Login" style='background-color: white; border: 1px solid black; border-radius: 8px; padding: 4px; margin-top: 4px;' />

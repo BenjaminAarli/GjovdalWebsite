@@ -1,8 +1,9 @@
 <script lang="ts">
+	import PostBlock from "$lib/custom/PostBlock.svelte";
+
     let post_text = "asdas"; 
     let post_src  = "";
     let post_user = "Tom";
-
     const post_time = new Date().toDateString();
     let file; 
     function handle_image_change(event: any) {
@@ -11,14 +12,13 @@
             post_src = URL.createObjectURL(file);
         }
     }
-
 </script>
 
 <div class='LoginBlock'>
-    <form>
-        <input type="text" bind:value={post_text} placeholder="Text"/>
-        <input type="file" accept="image/*" on:change={handle_image_change}  style='background-color: white; border: 1px solid black; border-radius: 8px; padding: 4px; margin-top: 4px;'/>
-        <input type="submit" value="Publish"      style='background-color: white; border: 1px solid black; border-radius: 8px; padding: 4px; margin-top: 4px;' />
+    <form method="POST" enctype="multipart/form-data">
+        <input name="form_text" type="text" bind:value={post_text} placeholder="Text"/>
+        <input name="form_image_src" type="file" accept="image/*" on:change={handle_image_change}  style='background-color: white; border: 1px solid black; border-radius: 8px; padding: 4px; margin-top: 4px;'/>
+        <input type="submit" value="Publish" style='background-color: white; border: 1px solid black; border-radius: 8px; padding: 4px; margin-top: 4px;' />
     </form>
 </div>
 
@@ -26,20 +26,18 @@
 
 <div class="PostsBlock">
     <div class="Posts">
-        <div style="width: 500px; height: auto; background-color: whitesmoke; border: 4px solid #fff; border-radius: 4px; ">
-            <div style="height: 50px; background-color: grey; display: flex; justify-content: center; align-items: center;">
-                <img style='width: 25px; height: 25px;' src='/icons/circle.png' alt='Publisher Face'/>
-                <h1 style='margin: 0px'>{post_user}</h1>
-            </div>
-            <h1 style="margin: 8px; margin-left: 32px; margin-right: 32px;">{post_text}</h1>
-            {#if (post_src)}<img alt="Preview" src={post_src} style="width: 400px; height: 400px; display: flex; margin: auto; border: 4px solid grey; border-radius: 4px;"/> {/if}
-            <p style='margin: 8px'>{post_time}</p>
-        </div>
+        <PostBlock user="{post_user}" text="{post_text}" src="{post_src}" time="{post_time}" />
         <button style="border: 1px solid black; width: 100%; height: 45px; background-color: aliceblue;">Se mer</button>
     </div>
 </div>
+<div style="height: 60px;"></div>
+
+<div>
+    <div></div>
+</div>
 
 <div style="height: 500px;"></div>
+
 <style>
     .LoginBlock {
         position: relative; 

@@ -23,7 +23,6 @@
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio"
 	},
-
 	"devDependencies": {
 		"@eslint/compat": "^2.0.1",
 		"@eslint/js": "^9.39.2",
@@ -34,6 +33,7 @@
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.18",
 		"@types/node": "^24",
+		"@types/nodemailer": "^8.0.0",
 		"@types/pg": "^8.16.0",
 		"@vitest/browser-playwright": "^4.0.18",
 		"concurrently": "^9.2.1",
@@ -59,6 +59,10 @@
 	},
 	"dependencies": {
 		"dotenv": "^17.3.1",
+		"firebase": "^12.11.0",
+		"firebase-admin": "^13.7.0",
+		"firestore": "^1.1.6",
+		"nodemailer": "^8.0.5",
 		"pg": "^8.18.0",
 		"postgres": "^3.4.8"
 	}

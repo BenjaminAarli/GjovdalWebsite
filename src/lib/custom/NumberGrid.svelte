@@ -1,33 +1,46 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import type { Ticket, TicketTypes } from '$lib/Ticket';
-    import { createEventDispatcher } from 'svelte';
+	import { collection, getDocs } from 'firebase/firestore';
+	import { getDatabase, tickets } from '$lib/firebase';
     
-    export let grid_amount = 30;
-    export let starting_id = 1;
-
-    let ticket_slots: Ticket[] = [];
-
-    export let tickets_selected: Ticket[] = [];
+    interface Props {
+        starting_id?: number;
+        field: string;
+        grid_amount?: number;
+        [key: string]: any;
+    }
+    let {
+        starting_id = 0, 
+        field = "", 
+        grid_amount = -1,
+        tickets_selected = $bindable([]),
+        onTicketsSelectedChange, 
+        ...restProps
+     }: Props = $props();
     
-    const dispatch = createEventDispatcher();
+    // let tickets_selected: Ticket[] = $state<Ticket[]>([]);
+    let ticket_slots: Ticket[] = $state<Ticket[]>([]);
 
-    onMount(() => {
-        generateCells();
+    let id = $state<number>();
+
+    let filtered = $derived(
+        ticket_slots
+            .filter((ticket: Ticket) => ticket.field == field)          // Filter by color
+            .sort((a, b) => a.index - b.index)                          // Sort by index, lowest to highest.
+    ); 
+    
+    let display_array = $derived(
+        grid_amount === -1
+        ? filtered
+        : filtered.slice(starting_id, starting_id + grid_amount)
+    )
+
+    onMount(async () => { 
+        tickets.then((data: Ticket[]) => {
+            ticket_slots.push(...data);
+        });
     });
-    
-    function generateCells() {
-        let generated_tickets: Ticket[] = [];
-        for (let i = 0; i < grid_amount; i++) {
-            const ticket : Ticket = {
-                id: starting_id + i,
-                state: Math.random() < 0.5 ? 'available' : 'unavailable',
-            };
-            generated_tickets.push(ticket);
-            console.log(`Generated ticket with id ${ticket.id} and state ${ticket.state}`)
-        };
-        ticket_slots = generated_tickets;
-    };
 
     function ticket_clicked(ticket: Ticket) {
         if (ticket.state === 'unavailable') {
@@ -38,21 +51,23 @@
         } else if (ticket.state === 'selected') {
             ticket.state = 'available';
         };
-        ticket_slots = ticket_slots.map(t => t.id === ticket.id ? ticket : t);
-        tickets_selected = ticket_slots.filter(t => t.state === 'selected');
-        dispatch('tickets_selected', { detail : tickets_selected});
+        // ticket_slots = ticket_slots.map((t: { index: number; }) => t.index === ticket.index ? ticket : t);
+        tickets_selected = ticket_slots.filter((t: { state: string; }) => t.state === 'selected');
+        onTicketsSelectedChange?.(tickets_selected);
+
+        // dispatch('tickets_selected', { detail : tickets_selected});
     }
 </script>
 
-<div class="ticket_grid" {...$$restProps}>
-    {#each ticket_slots as i}
-        <div class="ticket_block {i.state}">
-            <button on:click={() => ticket_clicked(i)}>
+<div class="ticket_grid" {...restProps}>
+    {#each display_array as i}
+        <div class="ticket_block {i.state}" style="background-color: {i.field}">
+            <button onclick={() => ticket_clicked(i)}>
                 <h2 style="pointer-events: none;">
                     {#if i.state === 'unavailable'}
-                        <i><p style="pointer-events: none; color: darkgrey; font-size: 0.5em; ">{i.id}</p></i>
+                        <i><p style="pointer-events: none; color: darkgrey; font-size: 0.5em; ">{i.index}</p></i>
                     {:else}
-                        {i.id}
+                        {i.index}
                     {/if}
                 </h2>
             </button>
@@ -76,11 +91,13 @@
    }
    .ticket_block {
         border: 1px solid black;
-        font-size: 1rem;
-        width: 100%;
+        font-size: 1em;
+        width: auto;
+        height: auto;
         background-color: green;
         display: flex;
         flex-direction: row;
+        overflow: hidden;
    }
    .ticket_block.available {
         background-color: lightgreen;

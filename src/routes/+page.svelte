@@ -1,4 +1,9 @@
 <script lang="ts">
+	import PostBlock from "$lib/custom/PostBlock.svelte";
+    import { getDatabase } from "$lib/firebase";
+	import { collection, getDocs, Timestamp } from "firebase/firestore";
+	import { onMount } from "svelte";
+
     let current_year = new Date().getFullYear();
     let hover_index = "-1";
 
@@ -10,8 +15,8 @@
     
     let artists: ARTIST[] = [
         {src:"/artists/EvyAndJan.png", name:"Evy og Jan", day: [0, 1, 2]},
-        {src:"/artists/Screenshot 2025-02-16 152557.png", name:"Lillepus", day: [1, 2]},
-        {src:"/artists/images.jpg", name:"Toad.", day: [2]},
+        // {src:"/artists/Screenshot 2025-02-16 152557.png", name:"Lillepus", day: [1, 2]},
+        // {src:"/artists/images.jpg", name:"Toad.", day: [2]},
     ];
 
     type POSTS = {
@@ -19,16 +24,32 @@
         day: string,
         src: string,
         text: string,
+        created_at: Timestamp,
     }
 
-    let posts: POSTS[] = [
-        {user: "Hans Person", day: new Date().toDateString(), src: '/adjaiwjd.jpg', text: "Hello world"},
-        {user: "Mars Planet", day: new Date().toDateString(), src: '', text: "Denne Posten er uten bilde. Så du kan skrive om hva som helst, football, kanonball, e-sports, spiller ingen rolle. Jeg kan skrive om verdensrommet om jeg vil. Who cares! Bla Ble Blo."},
-        {user: "Mars Planet", day: new Date().toDateString(), src: '/awdaawdawd.jpeg', text: "Lille Laget"},
-    ];
-    const getPosts = () => {
+    let posts: any = [];
+    onMount(async () => {
+        getPosts().then(data => {
+            posts = data;
+        });
+    })
 
-    }
+   async function getPosts() {
+            const querySnap = await getDocs(collection(getDatabase(), 'posts'));
+            const postdata = querySnap.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(), 
+                created_at_date: doc.data().created_at ? doc.data().created_at.toDate().toLocalString("no-NO", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }) : null
+            }));
+            return postdata;
+    }   
+    
 </script>
 
 <div style="position: relative; display: flex; flex-direction: column;">
@@ -69,7 +90,6 @@
                         <p>Name: {artist.name}</p>
                         <div style="display: flex; flex-direction: row; s background-color: green; border: 1px solid black; border-radius: 8px; width: fit-content; padding: 4px; gap: 2px">
                             {#each ["Fredag", "Lørdag", "Søndag"] as day, index}
-                                <!-- Check the index, as Fre is 5, Lør is 6 and Søn is 7. -->
                                 <div role="button" tabindex="{index}" class="ArtistBlockDay {artist.day.includes(index) ? '' : 'Deactive'}" on:mouseenter={() => {hover_index = artist.name + index}} on:mouseleave={() => {hover_index = ""}}>
                                     <p style="pointer-events: none; vertical-align: middle; margin: auto; font-size: 2em; {index === 2 ? 'color: #d9534f;' : ''}">
                                         {day}
@@ -94,15 +114,7 @@
 <div class="PostsBlock">
     <div class="Posts">
         {#each posts as post}
-        <div style="width: 500px; height: auto; background-color: whitesmoke; border: 4px solid #fff; border-radius: 4px; ">
-            <div style="height: 50px; background-color: grey; display: flex; justify-content: center; align-items: center;">
-                <img style='width: 25px; height: 25px;' src='/icons/circle.png' alt='Publisher Face'/>
-                <h1 style='margin: 0px'>{post.user}</h1>
-            </div>
-            <h1>{post.text}</h1>
-            {#if (post.src)}<img alt="{post.text}" src={post.src} style="width: 400px; height: 400px; display: flex; margin: auto; border: 4px solid grey; border-radius: 4px;"/> {/if}
-            <p>{post.day}</p>
-        </div>
+        <PostBlock user="{post.user}" text="{post.text}" src="{post.src}" time="" />
         {/each}
         <button style="border: 1px solid black; width: 100%; height: 45px; background-color: aliceblue;">Se mer</button>
     </div>
@@ -147,6 +159,7 @@
         width: 1ch;
         transition: width 0.25s;
     }
+
     .ArtistBlockDay:hover p {
         width: 6ch;
     }
@@ -170,6 +183,7 @@
         padding-top: 64px;
         padding-bottom: 64px;
     }
+
     .Front {
         position: relative;
         display: block;

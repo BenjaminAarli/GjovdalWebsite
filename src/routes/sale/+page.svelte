@@ -1,19 +1,25 @@
 <script lang="ts">
+	import { browser } from "$app/environment";
 	import type { Ticket } from "$lib/Ticket";
 	import { onMount } from "svelte";
     
-    let tickets: Ticket[] = []; 
-    let sent_info = false;
-    let payment_open = false;
+    let data = $props();
 
+    let tickets = $state<Ticket[]>([]); 
+    let payment_open = $state(false);
+    
+    let purchaseID = $state<string | null>(data.purchaseID);
     // Set current tickets as the cookie 'cart' in localStorage.
     if (typeof window !== 'undefined'){
         let cart: string | null = localStorage.getItem('cart');
         let cart_parsed: Ticket[] = cart ? JSON.parse(cart) : [];
-        for (const ticket in cart_parsed){
+
+        let t = []
+        for (const ticket of cart_parsed){
             console.log("Ticket: ", ticket);
+            t.push(ticket)
         }
-        tickets = cart_parsed;
+        tickets = t;
         payment_open = localStorage.getItem('PaymentReady') === 'true';
     }
     onMount(() => {
@@ -29,22 +35,23 @@
                     /(\d{3})(\d{2})(\d{0,3})/,
                     (_, a: string, b: string, c: string) => (c ? `${a} ${b} ${c}` : b ? `${a} ${b}` : a)
                 );
-    
                 input.value = formatted;
             });
         };
-        const form_tickets = document.getElementById('form_tickets') as HTMLInputElement; 
-        form_tickets.value = tickets.toString();
+        const form_tickets = document.getElementById('form_tickets') as HTMLInputElement;
+
+        form_tickets.value = JSON.stringify(tickets);
+        console.log("TICKETS TO STRING: ", JSON.stringify(tickets))
     });
-    function remove_ticket(ticket_id: number) {
+    function remove_ticket(ticket: Ticket) {
         let cart: string | null = localStorage.getItem('cart');
         let cart_parsed: Ticket[] = cart ? JSON.parse(cart) : [];
-        const new_cart = cart_parsed.filter(item => item.id !== ticket_id);
+        
+        const new_cart = cart_parsed.filter(item => item !== ticket);
         
         localStorage.setItem('cart', JSON.stringify(new_cart)); // updates the "cookie"
         tickets = [...new_cart]; // updates the actual cart on screen.  
     }
-    
 </script>   
 
 <div class="form_div">
@@ -52,50 +59,43 @@
         <input id="form_name"    name="form_name"     type="text"   placeholder="Navn" />
         <input id="form_email"   name="form_email"    type="email"  placeholder="Email"/>
         <input id="form_phone"   name="form_phone"    type="tel"    placeholder="Telefon Nummer"/>
-        <input id="form_tickets" name="form_tickets" type="hidden"/>
+        <input id="form_tickets" name="form_tickets"  type="hidden"/>
         <!-- <input type="submit" /> # moved elsewhere. -->
     </form>
 </div>
+
+
+<!-- {#if purchaseID !== null}
+<div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+        <p>Tickets: {tickets}</p>
+        <p>Dette er billetten IDen din: {purchaseID}</p>
+    </div>
+{/if} -->
 
 <div class="tickets"> 
     {#each tickets as ticket}
     <div style="display: flex; flex-direction: row;">
         <div class="ticket_div">
             <p>
-                Ticket {ticket.id}
+                Ticket {ticket.index}
             </p>
             <p>1200kr</p>
         </div>
-        <button class="ticket_delete_button" on:click={() => remove_ticket(ticket.id)}>✘</button>
+        <button class="ticket_delete_button" onclick={() => remove_ticket(ticket)}>✘</button>
     </div>
     {/each}
     <p>Total pris: {tickets.length * 1200}kr</p>
-    <button type="submit" form="person_data" class="checkout_button" style="width: 100%;" on:click={() => {localStorage.setItem('PaymentReady', 'true')}}>Betal nå</button>
+    <button type="submit" form="person_data" class="checkout_button" style="width: 100%;" onclick={() => {localStorage.setItem('PaymentReady', 'true')}}>Betal nå</button>
 </div>
-
-{#if sent_info}
-<div class="vipps_div">
-    <vipps-mobilepay-button
-        type="button"
-        brand="vipps"
-        language="no"
-        variant="primary"
-        rounded="true"
-        verb="pay"
-        stretched="false"
-        branded="true"
-        loading="false" 
-    ></vipps-mobilepay-button>
-</div>
-{/if}
 
 {#if payment_open}
 <div style="width: 100%; height: 550px; display: flex; flex-direction: column; margin: auto; position: relative; justify-content: center; gap: 8px;">
-    <div style="width: 500px; display: flex; margin: auto; background-color: grey; border: 1px solid whitesmoke; border-radius: 8px; padding: 32px; gap: 8px; font-style: oblique; text-align: center;">
+    <div style="width: 500px; display: flex; margin: auto; background-color: lightgrey; border: 1px solid whitesmoke; border-radius: 8px; padding: 32px; gap: 8px; font-style: oblique; text-align: center;">
         <div>
             <p>Du kan betale med VIPPS via denne QR koden.</p>
             <p><br>ELLER<br><br>Betal direkte til bankkonto som er skrevet under</p>
-            <p style="background-color: whitesmoke; border: 1px solid red; border-radius: 8px; margin-top: 8px;">0123 456 7890</p>
+            <p style="background-color: whitesmoke; border: 1px solid red; border-radius: 8px; margin-top: 8px;">3000 65 74293</p>
+            <p style="color: red; margin-top: 4px;">VIKTIG: Skriv informasjon i betalingen din med navn og plass.</p>
         </div>
         <img src='/qr_gjovdal.jpg' alt='Payment QR Code.' style="width: 250px; position: relative; margin: auto;">
     </div>
@@ -168,15 +168,5 @@
         border-radius: 8px;
         width: 100%;
         border: solid 1px grey;
-    }
-    /* Div - Vipps Payment. */
-    .vipps_div {
-        position: relative;
-        margin: auto;
-        margin-top: 8px;
-        width: 250px;
-        
-        display: flex;
-        justify-content: center;
     }
 </style>
