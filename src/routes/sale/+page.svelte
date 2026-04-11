@@ -3,16 +3,16 @@
 	import type { Ticket } from "$lib/Ticket";
 	import { onMount } from "svelte";
     
-    let data = $props();
+    let { data } = $props();
 
     let tickets = $state<Ticket[]>([]); 
     let payment_open = $state(false);
     
     let purchaseID = $state<string | null>(data.purchaseID);
-    // Set current tickets as the cookie 'cart' in localStorage.
-    if (typeof window !== 'undefined'){
+    
+    onMount(() => {
         let cart: string | null = localStorage.getItem('cart');
-        let cart_parsed: Ticket[] = cart ? JSON.parse(cart) : [];
+        let cart_parsed: Ticket[] = cart ? JSON.parse(cart) : [];   
 
         let t = []
         for (const ticket of cart_parsed){
@@ -21,8 +21,7 @@
         }
         tickets = t;
         payment_open = localStorage.getItem('PaymentReady') === 'true';
-    }
-    onMount(() => {
+
         // Formats the string in input into a xxx xx xxx rather than xxxxxxxx. 
         const input = document.getElementById('Phone') as HTMLInputElement | null;
         if (input) {

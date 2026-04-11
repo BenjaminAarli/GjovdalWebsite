@@ -2,7 +2,7 @@ import admin from 'firebase-admin';
 import 'dotenv/config';
 import { getDoc } from 'firebase/firestore';
 
-const keyString: string = process.env.FIREBASE_KEY_JSON || "";
+const keyString: string = process.env.FIREBASE_KEY_JSON || "{}";
 const keyJson = JSON.parse(keyString) || {};
 
 if (keyJson) {

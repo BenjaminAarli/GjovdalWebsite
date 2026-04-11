@@ -1,6 +1,5 @@
 import { db } from '$lib/server/firebase_admin';
 import type { Actions } from "@sveltejs/kit";
-import { serverTimestamp } from "firebase/firestore";
 import admin from 'firebase-admin';
 import nodemailer from 'nodemailer';
 

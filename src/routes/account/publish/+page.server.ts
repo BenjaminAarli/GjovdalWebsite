@@ -1,7 +1,6 @@
 import type { Actions } from '@sveltejs/kit';
-import { db, getDatabase } from '$lib/server/firebase_admin';
+import { db } from '$lib/server/firebase_admin';
 import admin from 'firebase-admin';
-import { serverTimestamp } from 'firebase/firestore';
 
 export const actions: Actions = {
     default: async ({ request }) => {
