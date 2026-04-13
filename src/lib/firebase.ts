@@ -1,13 +1,10 @@
 // Import the functions you need from the SDKs you need
-import { getApps, initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { getApps, initializeApp, type FirebaseApp } from "firebase/app";
+import { collection, getDocs, getFirestore, type Firestore } from "firebase/firestore";
 import type { Ticket } from "./Ticket";
+import { getAuth, type Auth } from "firebase/auth";
+import { browser } from "$app/environment";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyD3shEZRnCouOIPnd1ou8uV3fmigoPfhk0",
   authDomain: "project-1ae50be0-355d-41fa-b51.firebaseapp.com",
@@ -18,11 +15,22 @@ const firebaseConfig = {
   measurementId: "G-HJEBHS9BV2"
 };
 
-// Initialize Firebase
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const db = getFirestore(app, 'gjovdal');
+let app : FirebaseApp | null    = null;
+let db  : Firestore | null      = null;
+let auth: Auth | null           = null;
 
-export function getDatabase(){
+if (browser && !getApps().length) {
+    app = initializeApp(firebaseConfig);
+    db  = getFirestore(app);
+    auth = getAuth(app);
+}
+
+function getDatabase(){
+    if (!db) {
+        app = initializeApp(firebaseConfig);
+        db  = getFirestore(app);
+        auth = getAuth(app);
+    }
     return db;
 }
 
@@ -32,7 +40,11 @@ const getTicketsFromDatabase = async () => {
         id: doc.id,
         ...doc.data(), 
     }));
-
-    return postdata as Ticket[];
+    return postdata;
 };
+
 export const tickets = getTicketsFromDatabase();
+
+export {
+    app, db, auth
+}
